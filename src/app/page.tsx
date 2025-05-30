@@ -1,7 +1,8 @@
 export default function Home() {
   return (
     <main>
-      <div>Hello world!</div>
+      <div className="text-3xl">Hello world!</div>
+      <div>맑은 고딕?</div>
     </main>
   );
 }
