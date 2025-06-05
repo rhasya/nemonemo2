@@ -1,20 +1,26 @@
-'use server';
+"use server";
 
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {
-  const username = formData.get('username') as string | null;
-  const password = formData.get('password') as string | null;
+  const cookieStore = await cookies();
 
-  if (username === 'snow' && password === 'xyz') {
+  const username = formData.get("username") as string | null;
+  const password = formData.get("password") as string | null;
+
+  if (username === "snow" && password === "xyz") {
     // Set cookie
     if (username) {
-      cookies().set('user', username);
+      cookieStore.set("user", username, {
+        httpOnly: true,
+        path: "/",
+        secure: process.env.mode !== "development",
+      });
     }
     // Redirect to welcome page
-    redirect('/welcome');
+    redirect("/welcome");
   } else {
-    return { success: false, message: 'Invalid username or password.' };
+    return { success: false, message: "Invalid username or password." };
   }
 }
